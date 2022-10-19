@@ -2,9 +2,11 @@
 
 This web app makes it easy to curate & display media slideshows (ideal for NFTs) using Google Sheets as the back end / admin interface.
 
+It was originally built for the NFT Screens in the [Union Square Ventures](https://usv.com) office in NYC, as described [here](https://avc.com/2022/10/nft-screens/).
+
 This is built to deploy on [Netlify](https://netlify.com), but of course can be edited for other environments.
 
-## Getting Started
+## Configuring & Deploying the App
 
 1. Copy and save this [google sheet template](https://docs.google.com/spreadsheets/d/19vLAcJ1chfbkRZGzwcbt1pIDednMHTSXtNI86eGh0s0/edit#gid=654882609).
    * Each sheet in the workbook can be a playlist.  You can create multiple playlists by duplicating the first playlist sheet.
@@ -32,4 +34,11 @@ This is built to deploy on [Netlify](https://netlify.com), but of course can be 
     
  5. Deploy
     * push to Netlify and enjoy! 
+  
+## Getting it up on a screen:
+  
+At USV, we have a number of Samsung Commercial Displays set up to show NFTs.  We have [Samsung QMR-A 55](https://www.bhphotovideo.com/c/product/1662935-REG/samsung_qm55r_a_qmr_a_series_55_class.html)"s in vertical/portrait orientation, and [Samsung QM85R-B 85](https://www.bhphotovideo.com/c/product/1713072-REG/samsung_qm85r_b_qmr_b_85_class_4k.html)"s in horizontal/landscape orientation.
+  
+Each screen is connected to a [Yodeck](https://www.yodeck.com/) device which controls content on the screen.  We configure each yodeck with a URL media source pointing to the URL for the slideshow that should run on that screen.
+ 
 
