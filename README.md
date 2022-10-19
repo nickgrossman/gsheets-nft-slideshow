@@ -30,6 +30,6 @@ This is built to deploy on [Netlify](https://netlify.com), but of course can be 
     * Whenever you run the app, you'll need to add a query parameter `tab` which specifies which tab in the spreadsheet you're using.  For example, a Netlify development URL would look like `http://localhost:8888/?tab=Sample_Vertical` where `Sample_Vertical` is the exact name of the tab for this slideshow.
     * Another optional parameter is `slide_timing` which specifies an amount of time for each item, in seconds (the default is 30).
     
-  5. Deploy
+ 5. Deploy
     * push to Netlify and enjoy! 
 
