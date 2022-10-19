@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style type="text/css">
+	body, html { 
+		padding:  0;
+		margin:  0;
+		background:  #000;
+		height:  100%;
+		font-family:  Arial, sans-serif;
+	 }
+	 #nft_holder {
+	 	height:  100%;
+	 	text-align: center;
+	 }
+	 #fail_msg {
+	 	background: red;
+	    color: #fff;
+	    padding: 50px;
+	    text-align: center;
+	 }
+	 #loader {
+	 	text-align: center;
+	 	color: #fff;
+	 	padding:  250px 0;
+	 }
+	 .nft {
+
+	 }
+	 iframe.nft {
+	 	width:  100%;
+	 	height: 100%;
+	 	border:  0;
+	 	position:  absolute;
+	 	top: 0;
+	 	left:  0;
+	 }
+	 .nft_image {
+	 	display:  block;
+	 	margin-left:  auto;
+	 	margin-right:  auto;
+	 }
+	 #caption {
+	 	position:  absolute;
+	 	bottom:  20px;
+	 	left:  20px;
+	 	background:  #000;
+	 	padding:  20px 30px;
+	 	color :#fff;
+	 	text-align: left;
+	 	line-height:  1.5em;
+	 }
+	 #nft_title {
+
+	 }
+	 #nft_owner {
+	 	color:  #777;
+	 	font-size:  80%;
+	 }
+	 #qr_holder {
+	 	position: absolute;
+	 	bottom:  20px;
+	 	right:  20px;
+	 }
+	 #qr {
+	 	width:  75px;
+	 	height:  75px;
+	 }
+</style>
+<script src="env.js"></script>
+<script>
+	/*
+		Requires an API key / connection ID at https://sheet.bet
+	*/
+
+	var sampleData = 
+	[
+	    {
+	        "Name": "Nouns 270",
+	        "Artist": "Nouns ",
+	        "Media URL": "https://openseauserdata.com/files/a8e8ef3586e83ef72bf66d99722e2297.svg",
+	        "Info Link": "https://opensea.io/assets/ethereum/0x9c8ff314c9bc7f6e59a9d9225fb22946427edc03/270",
+	        "Include?": "TRUE",
+	        "Type": "Image",
+	        "Orientation": "Square"
+	    },
+	    {
+	        "Name": "Aku.002 - 10 #8/9",
+	        "Artist": "MICAH JOHNSON",
+	        "MEdia URL": "https://openseauserdata.com/files/d37fafc0161b30d6b61b02f240ae24d5.mp4",
+	        "Info Link": "https://opensea.io/assets/ethereum/0x325363e6d26819f21d71385da8f35e10e50e4920/26300020008",
+	        "Include?": "TRUE",
+	        "Type": "Video",
+	        "Orientation": "Portrait"
+	    }
+    ]
+
+	// set array for NFTs
+	var NFTs = [];
+	var max_height = window.innerHeight;
+	var max_width = window.innerWidth;
+	var window_orientation = "Landscape";
+	if (window.innerHeight > window.innerWidth) {
+		window_orientation = "Portrait";
+	}
+	let queryParams = new URLSearchParams(window.location.search);
+
+	// Get params from browser
+	let slide_timing = queryParams.get("slide_timing") || 60;
+	let tab_name = queryParams.get("tab") || "Sheet1";
+	
+	// function for setting the page to the NFT
+	var displayNFT = function(currentNFT) {
+		var NFT = NFTs[currentNFT];
+		// show the NFT and hide the other NFTs
+		$(".nft").hide();
+		$("#nft_"+currentNFT).show();
+
+		if(NFT['Type'] == "Video") {
+			$("#nft_" + currentNFT).trigger('play');
+		}
+
+		if (NFT['Type'] == "Generator") {
+			// clear all iframe NFTs first, to protect browser
+			$("iframe.nft").attr('src', "about:blank");
+			$("#nft_" + currentNFT).attr('src', $("#nft_" + currentNFT).attr("media-src"));	
+		}
+
+		// set orientation
+		if (NFT['Orientation'] == "Portrait") {
+			$("#nft_"+currentNFT).height(max_height);
+		} 
+		if (NFT['Orientation'] == "Landscape") {
+			$("#nft_"+currentNFT).width(max_width);
+			if (window_orientation == "Portrait") {
+				var offset_top = (max_height - $("#nft_"+currentNFT).height()) / 2;
+				$("#nft_"+currentNFT).css('margin-top', offset_top + "px");
+			}
+		}
+		if (NFT['Orientation'] == "Square") {
+			if (window_orientation == "Portrait") {
+				$("#nft_"+currentNFT).width(max_width);
+				var offset_top = (max_height - $("#nft_"+currentNFT).height()) / 2;
+				$("#nft_"+currentNFT).css('margin-top', offset_top + "px");
+			} else {
+				$("#nft_"+currentNFT).height(max_height);
+			}
+		}
+
+		// set caption
+		$("#nft_title").html(NFT['Name']);
+		$("#nft_artist").html("by " + NFT['Artist']);
+		if (NFT['Owner']) {
+			var nft_owner = "Owner: " + NFT["Owner"];
+			$("#nft_owner").html(nft_owner);
+		} else {
+			$("#nft_owner").html("");
+		}
+		
+
+		// set QR
+		$("#qr_link").attr('href', NFT['Info Link'])
+		var qr_img_url = "https://quickchart.io/qr?text=" + encodeURI(NFT['Info Link']);
+		$("#qr").attr('src', qr_img_url)
+	}
+
+	// function for looping the NFTs
+	var startSlideshow = function() {
+		// loop cycle through the NFTs and display them
+		var slideTime = slide_timing * 1000;  // convert to milliseconds
+		var currentNFT = 0;
+		$("#loader").hide();
+
+		displayNFT(currentNFT)
+		setInterval(function() {
+
+			if (currentNFT < NFTs.length - 1) {
+				currentNFT++;
+			} else {
+				currentNFT = 0;
+			}
+			displayNFT(currentNFT)
+
+		}, slideTime)
+	}
+
+	var makeNFTelements = function() {
+		$.each(NFTs, function(index) {
+
+			// set image properties
+			if (this['Type'] == "Image") {
+				$("#nfts").append($('<img class="nft"></img>')
+					.attr('src', this["Media URL"])
+					.attr("id", "nft_" + index)
+				);
+			}
+
+			// set video properties
+			if (this['Type'] == "Video") {
+				$("#nfts").append($('<video loop autoplay muted class="nft"></video>')
+					.attr("id", "nft_" + index)
+					.append($("<source></source>")
+						.attr('src', this["Media URL"])
+						.attr("type", "video/mp4")
+					)
+				);
+			}
+		
+			if (this['Type'] == "Generator") {
+				$("#nfts").append($('<iframe class="nft"></iframe>')
+					.height(max_height)
+					.width(max_width)
+					.attr("id", "nft_" + index)
+					.attr('media-src', this["Media URL"])
+				);
+			}
+		});
+	}
+
+	// Let er rip
+	$( document ).ready(function() {
+		$("#loader").show();
+		// fetch the data & launch it
+		$.get(env.SHEET_BEST_CONNECTION_URL + "/tabs/" + tab_name, function(data) {
+				// this is the success case
+				
+				$(data).each(function(index) {
+					// skip row 0, as this is the instructions in the sheet.
+					var NFT = data[index];
+					if (index > 0 && NFT['Include?'] == "TRUE") { 
+						NFTs.push(NFT);
+					 }
+				})
+				$("#qr_holder").show();
+				$("#caption").show();
+				makeNFTelements();
+				startSlideshow();
+			})
+			.fail(function() {
+				$("#loader").hide();
+				$("#fail_msg").show();
+			})
+	});
+
+</script>
+<body>
+<div id="nft_holder">
+	<div id="fail_msg" style="display:none">
+		<p>Loading data failed.</p>  
+		<p>Are you sure you added a correct value for the <b><u>tab</u></b> parameter?</p>
+		<p>for example: https://url-for-this-app/<b>?tab=Flamingo_Vertical</b></p>
+	</div>
+	<div id="loader" style="display:none">
+		<p>Loading...</p>
+	</div>
+	<div id="nfts"></div>
+	<div id="caption" style="display:none">
+		<span id="nft_title"></span> <span id="nft_artist"></span> <br />
+		<span id="nft_owner"></span>
+	</div>
+	<div id="qr_holder" style="display:none">
+		<a href="" id="qr_link">
+			<img id="qr" />
+		</a>
+	</div>
+</div>
+</body>
+</html>
