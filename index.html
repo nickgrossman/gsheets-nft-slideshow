@@ -97,12 +97,6 @@
 
 	// set array for NFTs
 	var NFTs = [];
-	var max_height = window.innerHeight;
-	var max_width = window.innerWidth;
-	var window_orientation = "Landscape";
-	if (window.innerHeight > window.innerWidth) {
-		window_orientation = "Portrait";
-	}
 	let queryParams = new URLSearchParams(window.location.search);
 
 	// Get params from browser
@@ -111,6 +105,14 @@
 	
 	// function for setting the page to the NFT
 	var displayNFT = function(currentNFT) {
+		// set dimensions (here in case of resize)
+		var max_height = window.innerHeight;
+		var max_width = window.innerWidth;
+		var window_orientation = "Landscape";
+		if (window.innerHeight > window.innerWidth) {
+			window_orientation = "Portrait";
+		}
+
 		var NFT = NFTs[currentNFT];
 		// show the NFT and hide the other NFTs
 		$(".nft").hide();
