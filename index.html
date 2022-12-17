@@ -107,7 +107,7 @@
 	var bgcolor = "#000";
 
 	// Get params from browser
-	let slide_timing = queryParams.get("slide_timing") || 60;
+	let slide_timing = queryParams.get("slide_timing") || env.SLIDE_TIMING || 60;
 	let tab_name = queryParams.get("tab") || "Sheet1";
 	
 	// function for setting the page to the NFT

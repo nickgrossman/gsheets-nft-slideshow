@@ -20,11 +20,12 @@ This is built to deploy on [Netlify](https://netlify.com), but of course can be 
    * create a file named `env.js`.  it should look like this:
      ```      
         env = {
-          SHEET_BEST_CONNECTION_URL: 'your-connection-url'
+          SHEET_BEST_CONNECTION_URL: 'your-connection-url',
+          SLIDE_TIMING: 60
         }
      ```
      Note: `env.js` file is for local development only, and will be ignored by Git when you commit.
-   * In your netlify application settings, create a new environmental variable called SHEET_BEST_CONNECTION_URL and add your URL there.
+   * In your netlify application settings, create a new environmental variable called SHEET_BEST_CONNECTION_URL and add your URL there, and add SLIDE_TIMING to set the default time per slide (defaults to 60 even if you don't put anything here).
    * When you deploy to Netlify, `netlify.toml` will collect your environmental variables from your app config and make them available to javascript via `env.js`.  (Hat tip for this trick to [Simone Web Design](https://simonewebdesign.it/how-to-get-environment-variables-in-the-browser/))
  
  4. Test
