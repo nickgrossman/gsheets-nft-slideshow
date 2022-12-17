@@ -111,6 +111,14 @@
 	
 	// function for setting the page to the NFT
 	var displayNFT = function(currentNFT) {
+
+		max_height = window.innerHeight;
+		max_width = window.innerWidth;
+		window_orientation = "Landscape";
+		if (window.innerHeight > window.innerWidth) {
+			window_orientation = "Portrait";
+		}
+
 		var NFT = NFTs[currentNFT];
 		// show the NFT and hide the other NFTs
 		$(".nft").hide();
@@ -124,6 +132,8 @@
 			// clear all iframe NFTs first, to protect browser
 			$("iframe.nft").attr('src', "about:blank");
 			$("#nft_" + currentNFT).attr('src', $("#nft_" + currentNFT).attr("media-src"));	
+			$("#nft_"+currentNFT).height(max_height);
+			$("#nft_"+currentNFT).width(max_width);
 		}
 
 		// set orientation
