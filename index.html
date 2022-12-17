@@ -104,6 +104,7 @@
 		window_orientation = "Portrait";
 	}
 	let queryParams = new URLSearchParams(window.location.search);
+	var bgcolor = "#000";
 
 	// Get params from browser
 	let slide_timing = queryParams.get("slide_timing") || 60;
@@ -123,6 +124,11 @@
 		// show the NFT and hide the other NFTs
 		$(".nft").hide();
 		$("#nft_"+currentNFT).show();
+
+		// set background color
+		if(NFT['BGcolor'] != undefined) {
+			$("body").css("background-color", NFT['BGcolor'])
+		}
 
 		if(NFT['Type'] == "Video") {
 			$("#nft_" + currentNFT).trigger('play');
