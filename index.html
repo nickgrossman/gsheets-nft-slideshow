@@ -236,6 +236,7 @@
 	// Let er rip
 	$( document ).ready(function() {
 		// support small size.
+		console.log(env.METADATA_SIZE)
 		if (env.METADATA_SIZE == "small") {
 			// make caption and QR smaller
 			$("#caption").css({"font-size": "30%", "bottom": "5px", "left": "5px", "padding": "5px"});
