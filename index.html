@@ -242,6 +242,9 @@
 			$("#qr_holder").css({"bottom": "10px", "right": "10px"})
 			$("#qr").css({"width": "40px", "height": "40px"})
 		}
+		if (env.SHOW_OWNER == "false") {
+			$("#nft_owner").hide();
+		}
 
 		$("#loader").show();
 		// fetch the data & launch it
