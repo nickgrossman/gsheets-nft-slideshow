@@ -49,6 +49,7 @@
 	 	color :#fff;
 	 	text-align: left;
 	 	line-height:  1.5em;
+		opacity: 0.3;
 	 }
 	 #nft_title {
 
@@ -112,18 +113,17 @@
 	
 	// function for setting the page to the NFT
 	var displayNFT = function(currentNFT) {
-
-		max_height = window.innerHeight;
-		max_width = window.innerWidth;
-		window_orientation = "Landscape";
-		if (window.innerHeight > window.innerWidth) {
-			window_orientation = "Portrait";
-		}
-
 		var NFT = NFTs[currentNFT];
 		// show the NFT and hide the other NFTs
 		$(".nft").hide();
 		$("#nft_"+currentNFT).show();
+
+		max_height = window.innerHeight - NFT['Margin'];
+		max_width = window.innerWidth - NFT['Margin'];
+		window_orientation = "Landscape";
+		if (window.innerHeight > window.innerWidth) {
+			window_orientation = "Portrait";
+		}
 
 		// set background color
 		if(NFT['BGcolor'] != undefined) {
@@ -235,6 +235,14 @@
 
 	// Let er rip
 	$( document ).ready(function() {
+		// support small size.
+		if (env.METADATA_SIZE == "small") {
+			// make caption and QR smaller
+			$("#caption").css({"font-size": "50%", "bottom": "10px", "left": "10px", "padding": "10px"});
+			$("#qr_holder").css({"bottom": "10px", "right": "10px"})
+			$("#qr").css({"width": "40px", "height": "40px"})
+		}
+
 		$("#loader").show();
 		// fetch the data & launch it
 		$.get(env.SHEET_BEST_CONNECTION_URL + "/tabs/" + tab_name, function(data) {
