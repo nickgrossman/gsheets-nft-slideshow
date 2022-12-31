@@ -236,11 +236,13 @@
 	// Let er rip
 	$( document ).ready(function() {
 		// support small size.
-		if (env.METADATA_SIZE == "small") {
+		var has_resized = false;
+		if (env.METADATA_SIZE == "small" && !has_resized) {
 			// make caption and QR smaller
 			$("#caption").css({"font-size": "60%", "bottom": "10px", "left": "10px", "padding": "10px 20px"});
 			$("#qr_holder").css({"bottom": "10px", "right": "10px"})
 			$("#qr").css({"width": "30px", "height": "30px"})
+			has_resized = true;
 		}
 		if (env.SHOW_OWNER == "false") {
 			$("#nft_owner").hide();
