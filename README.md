@@ -29,7 +29,8 @@ This is built to deploy on [Netlify](https://netlify.com), but of course can be 
    * When you deploy to Netlify, `netlify.toml` will collect your environmental variables from your app config and make them available to javascript via `env.js`.  (Hat tip for this trick to [Simone Web Design](https://simonewebdesign.it/how-to-get-environment-variables-in-the-browser/))
  
  4. Test
-    * if you're working locally, run `netlify dev` from the command line (requires the [Netlify CLI Client](https://cli.netlify.com/))
+    * install the netlify CLI: run `npm install netlify-cli -g`
+    * run `netlify dev` to spin up a local server
     * Whenever you run the app, you'll need to add a query parameter `tab` which specifies which tab in the spreadsheet you're using.  For example, a Netlify development URL would look like `http://localhost:8888/?tab=Sample_Vertical` where `Sample_Vertical` is the exact name of the tab for this slideshow.
     * Another optional parameter is `slide_timing` which specifies an amount of time for each item, in seconds (the default is 30).
     
